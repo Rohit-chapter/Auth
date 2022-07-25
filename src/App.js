@@ -1,9 +1,17 @@
-import './App.scss';
+import React from 'react';
+
+import RouteComponent from './routes/RouteComponent';
+
+import styles from './App.module.scss';
 
 function App() {
+
   return (
-    <h3>sample text</h3>
+    <div className={styles.appContainer}>
+      <RouteComponent />
+    </div>
   );
+
 }
 
 export default App;

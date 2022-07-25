@@ -1,0 +1,17 @@
+#loginFormDivider{
+  display: grid;
+  grid-template-columns: auto min-content auto;
+  align-items: center;
+
+  .divisionLine{
+    border-top: 1px solid var(--application-tertiary-color);
+  }
+
+  .orLabel{
+    font-size: 15px;
+    padding: 5px;
+    border-radius: var(--application-border-radius);
+    border: 1px solid var(--application-tertiary-color);
+    color: var(--application-tertiary-color);
+  }
+}

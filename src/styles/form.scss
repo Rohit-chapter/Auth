@@ -1,0 +1,28 @@
+input,
+select,
+textarea {
+  border: 1px solid var(--application-tertiary-color);
+  border-radius: var(--application-border-radius);
+  padding: 13px 20px;
+  background-color: var(--application-secondary-background-color);
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 19px;
+  transition: border-color 0.2s ease-in;
+  outline: none;
+
+  &:placeholder {
+    color: var(--application-tertiary-color);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus,
+  &:hover {
+    border-color: var(--application-primary-color);
+  }
+
+}
