@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import localStorageKeys from 'constants/local-storage-keys';
 
 import GoogleLoginControl from './google-login-control/GoogleLoginControl';
+import FacebookLoginControl from './facebook-login-control/FacebookLoginControl';
 
 import { ReactComponent as GoogleIcon } from 'assets/images/google-icon.svg';
 import { ReactComponent as FacebookIcon } from 'assets/images/facebook-icon.svg';
@@ -36,9 +37,22 @@ function SSOControls() {
 
   }
 
+  function renderFacebookLoginControl() {
+
+    const facebookLoginControlProperties = {
+      icon: <FacebookIcon className={styles.socialIcon} />,
+      controlClass: styles.ssoControl,
+      onLoginSuccess: handleSuccessfulLogin
+    };
+
+    return <FacebookLoginControl {...facebookLoginControlProperties} />;
+
+  }
+
   return (
     <div id={styles.ssoControlsContainer}>
       {renderGoogleLoginControl()}
+      {renderFacebookLoginControl()}
     </div>
   );
 }

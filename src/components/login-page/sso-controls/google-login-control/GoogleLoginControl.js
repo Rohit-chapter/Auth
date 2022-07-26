@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
+import loginTypes from 'constants/login-types';
+
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 function GoogleLoginControl(props) {
@@ -63,7 +65,8 @@ function GoogleLoginControl(props) {
       lastName: profile.getFamilyName(),
       id: profile.getId(),
       profileImage: profile.getImageUrl(),
-      email: profile.getEmail()
+      email: profile.getEmail(),
+      loginWith: loginTypes.GOOGLE
     };
 
     onLoginSuccess(data);
