@@ -1,0 +1,41 @@
+#myProfileMain {
+  background-color: var(--application-secondary-background-color);
+  border-radius: var(--application-border-radius);
+  padding: 30px;
+  display: grid;
+  grid-auto-rows: min-content;
+  row-gap: 10px;
+  justify-content: center;
+  color: var(--application-primary-background-color);
+  width: fit-content;
+  margin: 0 auto;
+
+  .profileImage {
+    border-radius: var(--application-border-radius);
+    margin: 0 auto 10px auto;
+  }
+
+  .name {
+    margin: 0 auto;
+    color: var(--application-primary-color);
+    font-family: 'Roboto-Bold';
+    font-size: 30px;
+  }
+
+  .email {
+    margin: 0 auto;
+    font-family: 'Roboto-Bold';
+    font-size: 18px;
+    color: var(--application-tertiary-color);
+  }
+
+  .id,
+  .loggedInStatus {
+    text-align: center;
+    font-size: 12px;
+  }
+
+  .logoutButton {
+    margin-top: 20px;
+  }
+}
