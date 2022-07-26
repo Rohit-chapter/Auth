@@ -1,37 +1,33 @@
 import React, { useEffect, useRef } from 'react';
 
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
 function GoogleLoginControl(props) {
 
-  const { icon, controlClass } = props;
+  const { icon, controlClass, onLoginSuccess } = props;
 
   const googleLoginControlReference = useRef(null);
 
   useEffect(() => {
+
     initialize();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [googleLoginControlReference]);
 
   function initialize() {
 
-    let auth2;
+    let auth;
 
-    const handleClientLoad = async () => await window.gapi.load('auth2', initClient);
+    const handleClientLoad = async () => await window.gapi.load('auth2', initializeClient);
 
-    const initClient = async () => {
-      auth2 = window.gapi.auth2.init({
-        client_id: '520779058753-ro6letmd98fq4mc1ppu5ib9eva4j850v.apps.googleusercontent.com',
+    const initializeClient = async () => {
+
+      auth = await window.gapi.auth2.init({
+        client_id: googleClientId
       });
 
-      const element = googleLoginControlReference.current;
-
-      if (element === null) {
-        return;
-      }
-
-      auth2.attachClickHandler(element, {}, function (user) {
-        console.log(user);
-      }, function (error) {
-        console.log(error);
-      });
+      handleAddCLickEvent(auth);
 
     };
 
@@ -44,6 +40,38 @@ function GoogleLoginControl(props) {
 
     document.body.appendChild(script);
 
+  }
+
+  function handleAddCLickEvent(auth) {
+
+    const element = googleLoginControlReference.current;
+
+    if (element === null) {
+      return;
+    }
+
+    auth.attachClickHandler(element, {}, onSuccess, onError);
+
+  }
+
+  function onSuccess(user) {
+
+    const profile = user.getBasicProfile();
+
+    const data = {
+      firstName: profile.getGivenName(),
+      lastName: profile.getFamilyName(),
+      id: profile.getId(),
+      profileImage: profile.getImageUrl(),
+      email: profile.getEmail()
+    };
+
+    onLoginSuccess(data);
+
+  }
+
+  function onError(error) {
+    alert(JSON.stringify(error));
   }
 
   const googleLoginControlAttributes = {

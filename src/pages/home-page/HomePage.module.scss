@@ -1,0 +1,23 @@
+#homePageMain{
+  display: grid;
+  justify-content: center;
+  grid-template-rows: min-content min-content;
+  margin: 40px 0;
+
+  .bannerImage{
+    width: 80%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .comingSoonLabel{
+    font-size: 40px;
+    font-family: 'Roboto-Bold';
+    text-align: center;
+  }
+
+  .logoutButton{
+    width: 250px;
+    margin: 20px auto;
+  }
+}

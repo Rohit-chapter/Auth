@@ -1,12 +1,28 @@
 import React from 'react';
 
+import { Navigate } from 'react-router-dom';
+
 import LoginForm from 'components/login-page/login-form/LoginForm';
 import LoginFormDivider from 'components/login-page/login-form-divider/LoginFormDivider';
-
-import styles from './LoginPage.module.scss';
 import SSOControls from 'components/login-page/sso-controls/SSOControls';
 
+import { getUserStorageData } from 'utilities/storage';
+
+import styles from './LoginPage.module.scss';
+
 function LoginPage() {
+
+  const userStorageData = getUserStorageData();
+
+  if (userStorageData !== null) {
+
+    const navigateProperties = {
+      to: '/home',
+      replace: true
+    };
+
+    return <Navigate {...navigateProperties} />;
+  }
 
   function renderLoginForm() {
 
