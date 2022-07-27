@@ -1,0 +1,14 @@
+#sidebarMain {
+  width: 210px;
+  height: calc(100vh - 40px);
+  background-color: var(--application-secondary-background-color);
+  color: var(--application-primary-background-color);
+  padding: 20px;
+
+  .sidebarTitle {
+    font-size: 25px;
+    font-family: 'Roboto-Bold';
+    margin: 0;
+    color: var(--application-primary-color);
+  }
+}

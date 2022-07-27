@@ -2,6 +2,7 @@ import { LinkedInCallback } from "react-linkedin-login-oauth2";
 
 import HomePage from "pages/home-page/HomePage";
 import LoginPage from "pages/login-page/LoginPage";
+import ScrollspyPage from "pages/scrollspy-page/ScrollspyPage";
 
 const routes = [
   {
@@ -16,8 +17,13 @@ const routes = [
   },
   {
     path: '/linkedin',
-    name: 'linkedin',
+    name: 'Linkedin',
     component: <LinkedInCallback />
+  },
+  {
+    path: '/scrollspy',
+    name: 'Scrollspy',
+    component: <ScrollspyPage />
   }
 ];
 
