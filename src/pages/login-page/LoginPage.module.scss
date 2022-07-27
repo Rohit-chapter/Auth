@@ -1,4 +1,4 @@
-#loginPageMain{
+#loginPageMain {
   background-color: inherit;
   width: 100vw;
   height: 100vh;
@@ -6,10 +6,10 @@
   align-items: center;
   justify-content: center;
 
-  #LoginForm{
+  #LoginForm {
     background-color: var(--application-secondary-background-color);
     width: 370px;
-    height: calc(100vh - 25%);
+    height: calc(100vh - 30%);
     border-radius: var(--application-border-radius);
     padding: 30px;
     display: grid;

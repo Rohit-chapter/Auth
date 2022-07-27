@@ -6,6 +6,7 @@ import localStorageKeys from 'constants/local-storage-keys';
 
 import GoogleLoginControl from './google-login-control/GoogleLoginControl';
 import FacebookLoginControl from './facebook-login-control/FacebookLoginControl';
+import LinkedinLoginControl from './linkedin-login-control/LinkedinLoginControl';
 
 import { ReactComponent as GoogleIcon } from 'assets/images/google-icon.svg';
 import { ReactComponent as FacebookIcon } from 'assets/images/facebook-icon.svg';
@@ -49,10 +50,23 @@ function SSOControls() {
 
   }
 
+  function renderLinkedinLoginControl() {
+
+    const linkedinLoginControlProperties = {
+      icon: <LinkedinIcon className={styles.socialIcon} />,
+      controlClass: styles.ssoControl,
+      onLoginSuccess: handleSuccessfulLogin
+    };
+
+    return <LinkedinLoginControl {...linkedinLoginControlProperties} />;
+
+  }
+
   return (
     <div id={styles.ssoControlsContainer}>
       {renderGoogleLoginControl()}
       {renderFacebookLoginControl()}
+      {renderLinkedinLoginControl()}
     </div>
   );
 }
