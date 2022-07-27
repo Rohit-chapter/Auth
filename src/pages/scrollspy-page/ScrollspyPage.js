@@ -1,8 +1,35 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
+import scrollspySectionIds from 'constants/scrollspy-section-ids';
 
 import Sidebar from 'components/scrollspy-page/sidebar/Sidebar';
 
+import { getActiveItemIndex } from './utilities';
+
 import styles from './ScrollspyPage.module.scss';
+
+const sidebarItems = [
+  {
+    id: scrollspySectionIds.SECTION1,
+    label: 'Section 1'
+  },
+  {
+    id: scrollspySectionIds.SECTION2,
+    label: 'Section 2'
+  },
+  {
+    id: scrollspySectionIds.SECTION3,
+    label: 'Section 3'
+  },
+  {
+    id: scrollspySectionIds.SECTION4,
+    label: 'Section 4'
+  },
+  {
+    id: scrollspySectionIds.SECTION5,
+    label: 'Section 5'
+  }
+];
 
 function ScrollspyPage() {
 
@@ -13,11 +40,39 @@ function ScrollspyPage() {
   const section4Reference = useRef(null);
   const section5Reference = useRef(null);
 
-  function handleNextControlClick(nextReference) {
+  const [activeItemIndex, setActiveItemIndex] = useState(0);
 
-    const element = nextReference.current;
+  useEffect(() => {
 
-    if (nextReference.current === null) {
+    const element = contentContainerReference.current;
+
+    if (element === null) {
+      return;
+    }
+
+    element.addEventListener('scroll', handleScrollingEvent);
+
+    return () => {
+      element.removeEventListener('scroll', handleScrollingEvent);
+    };
+
+  }, []);
+
+  function handleScrollingEvent() {
+
+    const contentContainerElement = contentContainerReference.current;
+
+    const activeIndex = getActiveItemIndex(contentContainerElement, activeItemIndex);
+
+    setActiveItemIndex(activeIndex);
+
+  }
+
+  function scrollIntoView(elementReference) {
+
+    const element = elementReference.current;
+
+    if (elementReference.current === null) {
       return;
     }
 
@@ -28,9 +83,46 @@ function ScrollspyPage() {
 
   }
 
+  function getElementReferenceById(id) {
+
+    if (id === scrollspySectionIds.SECTION1) {
+      return section1Reference;
+    }
+
+    if (id === scrollspySectionIds.SECTION2) {
+      return section2Reference;
+    }
+
+    if (id === scrollspySectionIds.SECTION3) {
+      return section3Reference;
+    }
+
+    if (id === scrollspySectionIds.SECTION4) {
+      return section4Reference;
+    }
+
+    if (id === scrollspySectionIds.SECTION5) {
+      return section5Reference;
+    }
+
+  }
+
+  function handleSidebarItemClick(id) {
+
+    const element = getElementReferenceById(id);
+
+    scrollIntoView(element);
+  }
+
   function renderSidebar() {
 
-    return <Sidebar />;
+    const sidebarProperties = {
+      data: sidebarItems,
+      activeIndex: activeItemIndex,
+      onClick: handleSidebarItemClick
+    };
+
+    return <Sidebar {...sidebarProperties} />;
 
   }
 
@@ -44,7 +136,7 @@ function ScrollspyPage() {
     const nextControlAttributes = {
       className: 'application-themed-button',
       onClick() {
-        handleNextControlClick(nextReference);
+        scrollIntoView(nextReference);
       }
     };
 

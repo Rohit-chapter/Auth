@@ -4,11 +4,38 @@
   background-color: var(--application-secondary-background-color);
   color: var(--application-primary-background-color);
   padding: 20px;
+  display: grid;
+  grid-auto-rows: min-content;
+  row-gap: 50px;
 
   .sidebarTitle {
     font-size: 25px;
     font-family: 'Roboto-Bold';
     margin: 0;
     color: var(--application-primary-color);
+  }
+
+  .sidebarContent {
+    display: grid;
+    grid-auto-rows: min-content;
+    row-gap: 20px;
+  }
+
+  .sidebarItem {
+    cursor: pointer;
+    color: var(--application-primary-color);
+    padding: 10px 20px;
+    border-radius: var(--application-border-radius);
+
+    &.active,
+    &:hover {
+      background-color: var(--application-secondary-color);
+    }
+
+    label {
+      font-size: 15px;
+      font-family: 'Roboto-Medium';
+      cursor: inherit;
+    }
   }
 }
