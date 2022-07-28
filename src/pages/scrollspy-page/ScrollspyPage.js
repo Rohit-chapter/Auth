@@ -1,32 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import scrollspySectionIds from 'constants/scrollspy-section-ids';
-
 import Sidebar from 'components/scrollspy-page/sidebar/Sidebar';
 
-import { getActiveItemIndex } from './utilities';
-
 import styles from './ScrollspyPage.module.scss';
+import { throttle } from 'utilities';
+
+const step = 100;
+const throttleLimit = 500; // throttle limit -> 500ms
 
 const sidebarItems = [
   {
-    id: scrollspySectionIds.SECTION1,
+    id: 0,
     label: 'Section 1'
   },
   {
-    id: scrollspySectionIds.SECTION2,
+    id: 1,
     label: 'Section 2'
   },
   {
-    id: scrollspySectionIds.SECTION3,
+    id: 2,
     label: 'Section 3'
   },
   {
-    id: scrollspySectionIds.SECTION4,
+    id: 3,
     label: 'Section 4'
   },
   {
-    id: scrollspySectionIds.SECTION5,
+    id: 4,
     label: 'Section 5'
   }
 ];
@@ -34,15 +34,21 @@ const sidebarItems = [
 function ScrollspyPage() {
 
   const contentContainerReference = useRef(null);
-  const section1Reference = useRef(null);
-  const section2Reference = useRef(null);
-  const section3Reference = useRef(null);
-  const section4Reference = useRef(null);
-  const section5Reference = useRef(null);
 
   const [activeItemIndex, setActiveItemIndex] = useState(0);
 
   useEffect(() => {
+
+    const unregisterContentScrollEvent = registerContentScrollEvent();
+
+    return () => {
+      unregisterContentScrollEvent();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function registerContentScrollEvent() {
 
     const element = contentContainerReference.current;
 
@@ -50,73 +56,61 @@ function ScrollspyPage() {
       return;
     }
 
-    element.addEventListener('scroll', handleScrollingEvent);
+    element.style.transform = 'translateY(0)';
+
+    let scrollDirection;
+
+    function determineScrollDirection(event) {
+      if (event.deltaY < 0) {
+        scrollDirection = 'down';
+      }
+      if (event.deltaY > 0) {
+        scrollDirection = 'up';
+      }
+      event.stopPropagation();
+    }
+
+    element.addEventListener('wheel', determineScrollDirection);
+    element.addEventListener('wheel', throttle(() => handleContentScrollEvent(element, scrollDirection), throttleLimit));
 
     return () => {
-      element.removeEventListener('scroll', handleScrollingEvent);
+      element.removeEventListener('wheel', determineScrollDirection);
+      element.removeEventListener('wheel', handleContentScrollEvent);
     };
 
-  }, []);
+  }
 
-  function handleScrollingEvent() {
+  function handleContentScrollEvent(element, scrollDirection) {
 
-    const contentContainerElement = contentContainerReference.current;
+    let sectionsLength = Array.from(element.children).length;
+    let scrollHeight = parseInt(-element.style.transform.match(/\d+/g)[0]);
 
-    updateActiveItemIndex(contentContainerElement);
+    if (scrollDirection === 'up' && scrollHeight !== -((sectionsLength - 1) * step)) {
+      scrollHeight = scrollHeight - step;
+    } else if (scrollDirection === 'down' && scrollHeight !== 0) {
+      scrollHeight = scrollHeight + step;
+    }
+
+    element.style.transform = 'translateY(' + scrollHeight + 'vh)';
+
+    setActiveItemIndex(Math.abs(scrollHeight / step));
 
   }
 
-  function updateActiveItemIndex(container) {
+  function scrollIntoView(index) {
 
-    const activeIndex = getActiveItemIndex(container, activeItemIndex);
+    const element = contentContainerReference.current;
 
-    setActiveItemIndex(activeIndex);
-
-  }
-
-  function scrollIntoView(elementReference) {
-
-    const element = elementReference.current;
-
-    if (elementReference.current === null) {
+    if (element === null) {
       return;
     }
 
-    element.scrollIntoView({
-      behavior: 'smooth'
-    });
+    const scrollHeight = -(index * step);
 
-  }
+    element.style.transform = 'translateY(' + scrollHeight + 'vh)';
 
-  function getElementReferenceById(id) {
+    setActiveItemIndex(index);
 
-    if (id === scrollspySectionIds.SECTION1) {
-      return section1Reference;
-    }
-
-    if (id === scrollspySectionIds.SECTION2) {
-      return section2Reference;
-    }
-
-    if (id === scrollspySectionIds.SECTION3) {
-      return section3Reference;
-    }
-
-    if (id === scrollspySectionIds.SECTION4) {
-      return section4Reference;
-    }
-
-    if (id === scrollspySectionIds.SECTION5) {
-      return section5Reference;
-    }
-
-  }
-
-  function handleSidebarItemClick(id) {
-
-    const element = getElementReferenceById(id);
-
-    scrollIntoView(element);
   }
 
   function renderSidebar() {
@@ -124,24 +118,29 @@ function ScrollspyPage() {
     const sidebarProperties = {
       data: sidebarItems,
       activeIndex: activeItemIndex,
-      onClick: handleSidebarItemClick
+      onClick(index) {
+        scrollIntoView(index);
+      }
     };
 
     return <Sidebar {...sidebarProperties} />;
 
   }
 
-  function renderSectionItem(title, currentReference, nextReference) {
+  function renderSectionItem(title, index) {
 
     const sectionItemAttributes = {
-      className: styles.sectionItem,
-      ref: currentReference
+      className: styles.sectionItem
     };
 
     const nextControlAttributes = {
       className: 'application-themed-button',
       onClick() {
-        scrollIntoView(nextReference);
+        let _index = index;
+        if (_index === 4) {
+          _index = -1;
+        }
+        scrollIntoView(_index + 1); // passing index + 1 to get next element
       }
     };
 
@@ -173,11 +172,11 @@ function ScrollspyPage() {
 
     return (
       <div {...scrollspyPageContentAttributes}>
-        {renderSectionItem('Section 1', section1Reference, section2Reference)}
-        {renderSectionItem('Section 2', section2Reference, section3Reference)}
-        {renderSectionItem('Section 3', section3Reference, section4Reference)}
-        {renderSectionItem('Section 4', section4Reference, section5Reference)}
-        {renderSectionItem('Section 5', section5Reference, section1Reference)}
+        {renderSectionItem('Section 1', 0)}
+        {renderSectionItem('Section 2', 1)}
+        {renderSectionItem('Section 3', 2)}
+        {renderSectionItem('Section 4', 3)}
+        {renderSectionItem('Section 5', 4)}
       </div>
     );
   }
@@ -188,6 +187,7 @@ function ScrollspyPage() {
       {renderContent()}
     </div>
   );
+
 }
 
 export default ScrollspyPage;

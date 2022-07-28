@@ -7,6 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--application-primary-background-color);
   color: var(--application-secondary-background-color);
+  overflow: hidden;
 }
 
 @font-face {
