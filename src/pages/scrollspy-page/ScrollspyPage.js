@@ -62,7 +62,13 @@ function ScrollspyPage() {
 
     const contentContainerElement = contentContainerReference.current;
 
-    const activeIndex = getActiveItemIndex(contentContainerElement, activeItemIndex);
+    updateActiveItemIndex(contentContainerElement);
+
+  }
+
+  function updateActiveItemIndex(container) {
+
+    const activeIndex = getActiveItemIndex(container, activeItemIndex);
 
     setActiveItemIndex(activeIndex);
 
@@ -77,8 +83,7 @@ function ScrollspyPage() {
     }
 
     element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
+      behavior: 'smooth'
     });
 
   }
