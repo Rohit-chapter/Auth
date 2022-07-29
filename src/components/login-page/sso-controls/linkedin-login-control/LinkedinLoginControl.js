@@ -1,36 +1,63 @@
-import React, { useEffect } from 'react';
+import loginTypes from 'constants/login-types';
+import React from 'react';
 
-// import { useLinkedIn } from 'react-linkedin-login-oauth2';
+import { useLinkedIn } from 'react-linkedin-login-oauth2';
 
-// const linkedinClientId = process.env.REACT_APP_LINKEDIN_CLIENT_ID;
+import { getLinkedinProfileByCode } from 'services/auth';
+
+const linkedinClientID = process.env.REACT_APP_LINKEDIN_CLIENT_ID;
+const linkedinRedirectURI = process.env.REACT_APP_LINKEDIN_REDIRECT_URI;
+const linkedinScope = process.env.REACT_APP_LINKEDIN_SCOPE;
 
 function LinkedinLoginControl(props) {
 
-  const { icon, controlClass } = props;
+  const { icon, controlClass, onLoginSuccess } = props;
 
-  useEffect(() => {
+  const { linkedInLogin } = useLinkedIn({
+    clientId: linkedinClientID,
+    redirectUri: linkedinRedirectURI,
+    scope: linkedinScope,
+    onSuccess,
+    onError,
+  });
 
-    initialize();
+  function onSuccess(code) {
 
-  }, []);
-
-  function initialize() {
-
-    const script = document.createElement('script');
-
-    script.src = "http://platform.linkedin.com/in.js";
-    script.async = true;
-    script.defer = true;
-
-    document.body.appendChild(script);
+    getLinkedinUserProfile(code);
 
   }
 
-  function handleLinkedinLoginControlClick() { }
+  function onError(error) {
+
+    if (error.error === 'user_closed_popup') {
+      return;
+    }
+
+    alert(JSON.stringify(error));
+
+  }
+
+  async function getLinkedinUserProfile(code) {
+
+    const result = await getLinkedinProfileByCode(code);
+
+    if (result.status !== 200) {
+      alert('Error in linkedin login');
+      return;
+    }
+
+    const userProfile = {
+      ...result.data.user,
+      loginWith: loginTypes.LINKEDIN
+    };
+
+    onLoginSuccess(userProfile);
+
+  }
 
   const googleLoginControlAttributes = {
     className: controlClass,
-    onClick: handleLinkedinLoginControlClick
+    onClick: linkedInLogin
   };
 
   return (
