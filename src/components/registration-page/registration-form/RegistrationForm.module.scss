@@ -1,0 +1,51 @@
+#registrationFormMain {
+  display: grid;
+  grid-auto-rows: min-content;
+  row-gap: 20px;
+
+  .registrationFormLabel {
+    font-size: 18px;
+    font-family: 'Roboto-Medium';
+    color: var(--application-tertiary-color);
+    text-transform: uppercase;
+  }
+
+  #registrationForm {
+    display: grid;
+    grid-auto-rows: min-content;
+    row-gap: 20px;
+  }
+
+  .nameInputControls {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 20px;
+  }
+
+  .formRow {
+    display: grid;
+    grid-template-rows: min-content 40px;
+    row-gap: 5px;
+  }
+
+  .formLabel {
+    font-size: 15px;
+    color: var(--application-tertiary-color);
+  }
+
+  .registrationCTA {
+    margin-top: 20px;
+  }
+
+  .alreadyHaveAnAccountLabel {
+    font-size: 15px;
+    color: var(--application-tertiary-color);
+    text-align: center;
+
+    .signInControl {
+      color: var(--application-primary-color);
+      cursor: pointer;
+    }
+  }
+
+}

@@ -1,4 +1,4 @@
-#loginPageMain {
+#registrationPageMain {
   background-color: inherit;
   width: 100vw;
   height: 100vh;
@@ -6,10 +6,10 @@
   align-items: center;
   justify-content: center;
 
-  #LoginForm {
+  #registrationPageContent {
     background-color: var(--application-secondary-background-color);
-    width: 370px;
-    height: calc(100vh - 30%);
+    width: 500px;
+    height: calc(100vh - 15%);
     border-radius: var(--application-border-radius);
     padding: 30px;
     display: grid;
@@ -17,5 +17,9 @@
     row-gap: 20px;
   }
 
-  .ssoControlsContainer {}
+  .ssoControlsContainer {
+    grid-auto-rows: 60px;
+    row-gap: 50px;
+    height: 100%;
+  }
 }

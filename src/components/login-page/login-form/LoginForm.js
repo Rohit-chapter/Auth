@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import styles from './LoginForm.module.scss';
 
 function LoginForm() {
+
+  const navigate = useNavigate();
 
   const [formState, setFormState] = useState({
     email: '',
@@ -79,10 +83,30 @@ function LoginForm() {
     return (
       <div id={styles.loginFormControls}>
         <button {...loginButtonAttributes}>Login</button>
-        <label className={styles.forgotPasswordControl}>Forgot Password?</label>
+        <div className={styles.loginFormExtraControls}>
+          {renderSignUpControl()}
+          <label className={styles.forgotPasswordControl}>Forgot Password?</label>
+        </div>
       </div>
     );
 
+  }
+
+  function renderSignUpControl() {
+
+    const signupControlAttributes = {
+      className: styles.signupControl,
+      onClick() {
+        navigate('/registration');
+      }
+    };
+
+    return (
+      <label className={styles.needAnAccountLabel}>
+        Need an account? {' '}
+        <span {...signupControlAttributes}>Sign up</span>
+      </label>
+    );
   }
 
   return (

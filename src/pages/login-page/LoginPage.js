@@ -3,8 +3,8 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 import LoginForm from 'components/login-page/login-form/LoginForm';
-import LoginFormDivider from 'components/login-page/login-form-divider/LoginFormDivider';
-import SSOControls from 'components/login-page/sso-controls/SSOControls';
+import SectionDivider from 'components/login-page/section-divider/SectionDivider';
+import SSOControls from 'components/sso-controls/SSOControls';
 
 import { getUserStorageData } from 'utilities/storage';
 
@@ -29,8 +29,8 @@ function LoginPage() {
     return (
       <div id={styles.LoginForm}>
         <LoginForm />
-        <LoginFormDivider />
-        <SSOControls />
+        <SectionDivider />
+        <SSOControls containerClass={styles.ssoControlsContainer} />
       </div>
     );
   }

@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 import localStorageKeys from 'constants/local-storage-keys';
 
-import GoogleLoginControl from './google-login-control/GoogleLoginControl';
-import FacebookLoginControl from './facebook-login-control/FacebookLoginControl';
-import LinkedinLoginControl from './linkedin-login-control/LinkedinLoginControl';
+import GoogleLoginControl from 'components/sso-controls/google-login-control/GoogleLoginControl';
+import FacebookLoginControl from 'components/sso-controls/facebook-login-control/FacebookLoginControl';
+import LinkedinLoginControl from 'components/sso-controls/linkedin-login-control/LinkedinLoginControl';
 
 import { ReactComponent as GoogleIcon } from 'assets/images/google-icon.svg';
 import { ReactComponent as FacebookIcon } from 'assets/images/facebook-icon.svg';
@@ -62,8 +62,12 @@ function SSOControls() {
 
   }
 
+  const ssoControlsContainerAttributes = {
+    id: styles.ssoControlsContainer
+  };
+
   return (
-    <div id={styles.ssoControlsContainer}>
+    <div {...ssoControlsContainerAttributes}>
       {renderGoogleLoginControl()}
       {renderFacebookLoginControl()}
       {renderLinkedinLoginControl()}

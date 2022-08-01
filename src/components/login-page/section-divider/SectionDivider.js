@@ -1,11 +1,11 @@
 import React from 'react';
 
-import styles from './LoginFormDivider.module.scss';
+import styles from './SectionDivider.module.scss';
 
-function LoginFormDivider() {
+function SectionDivider() {
 
   return (
-    <div id={styles.loginFormDivider}>
+    <div id={styles.SectionDivider}>
       <div className={styles.divisionLine}></div>
       <label className={styles.orLabel}>or</label>
       <div className={styles.divisionLine}></div>
@@ -14,4 +14,4 @@ function LoginFormDivider() {
 
 }
 
-export default LoginFormDivider;
+export default SectionDivider;
