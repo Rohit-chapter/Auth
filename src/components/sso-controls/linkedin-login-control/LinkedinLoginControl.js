@@ -1,4 +1,4 @@
-import loginTypes from 'constants/login-types';
+import authTypes from 'constants/auth-types';
 import React from 'react';
 
 import { useLinkedIn } from 'react-linkedin-login-oauth2';
@@ -48,7 +48,7 @@ function LinkedinLoginControl(props) {
 
     const userProfile = {
       ...result.data.user,
-      loginWith: loginTypes.LINKEDIN
+      authenticateType: authTypes.LINKEDIN
     };
 
     onLoginSuccess(userProfile);

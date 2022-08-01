@@ -41,7 +41,7 @@ function MyProfile(props) {
       <h2 className={styles.name}>{fullName}</h2>
       <h5 className={styles.email}>{profile.email}</h5>
       <label className={styles.id}>{profile.id}</label>
-      <label className={styles.loggedInStatus}>Logged in with {profile.loginWith}</label>
+      <label className={styles.loggedInStatus}>Logged in with {profile.authenticateType}</label>
 
       <button {...logoutControlAttributes}>Logout</button>
 

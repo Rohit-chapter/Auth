@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import loginTypes from 'constants/login-types';
+import authTypes from 'constants/auth-types';
 
 const facebookAppId = process.env.REACT_APP_FACEBOOK_APP_ID;
 const facebookApiVersion = process.env.REACT_APP_FACEBOOK_API_VERSION;
@@ -60,7 +60,7 @@ function FacebookLoginControl(props) {
         id: profile.id,
         profileImage: profile.picture.data.url,
         email: profile.email,
-        loginWith: loginTypes.FACEBOOK
+        authenticateType: authTypes.FACEBOOK
       };
 
       onLoginSuccess(data);

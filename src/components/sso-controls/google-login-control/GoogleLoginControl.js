@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import loginTypes from 'constants/login-types';
+import authTypes from 'constants/auth-types';
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -66,7 +66,7 @@ function GoogleLoginControl(props) {
       id: profile.getId(),
       profileImage: profile.getImageUrl(),
       email: profile.getEmail(),
-      loginWith: loginTypes.GOOGLE
+      authenticateType: authTypes.GOOGLE
     };
 
     onLoginSuccess(data);
