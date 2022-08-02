@@ -9,12 +9,14 @@
   #registrationPageContent {
     background-color: var(--application-secondary-background-color);
     width: 500px;
-    height: calc(100vh - 15%);
+    height: calc(100vh - 20%);
     border-radius: var(--application-border-radius);
     padding: 30px;
     display: grid;
     grid-auto-rows: min-content;
     row-gap: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .ssoControlsContainer {

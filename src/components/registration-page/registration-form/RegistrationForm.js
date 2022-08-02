@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
 
 import authTypes from 'constants/auth-types';
 
 import { convertValueToHash } from 'utilities';
 
-import { isFormValid } from './utilities';
+import { validateForm } from './utilities';
 
 import styles from './RegistrationForm.module.scss';
 
@@ -16,36 +17,24 @@ function RegistrationForm(props) {
 
   const navigate = useNavigate();
 
-  const [formState, setFormState] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: ''
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: ''
+    },
+    validate: validateForm,
+    onSubmit: handleCTAControlClick
   });
-
-  function handleTextInputControlChange(event, key) {
-
-    setFormState((_formState) => {
-      return {
-        ...formState,
-        [key]: event.target.value
-      };
-    });
-
-  }
 
   function handleCTAControlClick() {
 
-    const valid = isFormValid(formState);
-
-    if (valid === false) {
-      alert('All fields are mandatory');
-      return;
-    }
+    const values = formik.values;
 
     const user = {
-      ...formState,
-      password: convertValueToHash(formState.password),
+      ...values,
+      password: convertValueToHash(values.password),
       authenticationType: authTypes.WITHOUT_SSO
     };
 
@@ -53,21 +42,39 @@ function RegistrationForm(props) {
 
   }
 
+  function renderError(error) {
+
+    if (!error) {
+      return;
+    }
+
+    return <p className={styles.formErrorMessage}>{error}</p>;
+
+  }
+
   function renderInputControl(inputType, key, label, placeholder) {
+
+    let error = '';
+
+    if (formik.errors[key] !== '' && formik.touched[key] === true) {
+      error = formik.errors[key];
+    }
 
     const textInputControlAttributes = {
       type: inputType,
       placeholder: placeholder,
-      value: formState[key],
-      onChange(event) {
-        handleTextInputControlChange(event, key);
-      }
+      name: key,
+      className: error ? ' error' : '',
+      value: formik.values[key],
+      onChange: formik.handleChange,
+      onBlur: formik.handleBlur
     };
 
     return (
       <div className={styles.formRow}>
         <label className={styles.formLabel}>{label}</label>
         <input {...textInputControlAttributes} />
+        {renderError(error)}
       </div>
     );
   }
@@ -86,7 +93,7 @@ function RegistrationForm(props) {
 
     const ctaControlAttributes = {
       className: `application-themed-button ${styles.registrationCTA}`,
-      onClick: handleCTAControlClick
+      type: 'submit'
     };
 
     return <button {...ctaControlAttributes}>Register</button>;
@@ -109,18 +116,23 @@ function RegistrationForm(props) {
     );
   }
 
+  const registrationFormAttributes = {
+    id: styles.registrationForm,
+    onSubmit: formik.handleSubmit
+  };
+
   return (
     <div id={styles.registrationFormMain}>
 
       <label className={styles.registrationFormLabel}>Registration</label>
 
-      <div id={styles.registrationForm}>
+      <form {...registrationFormAttributes}>
         {renderNameInputControls()}
         {renderInputControl('email', 'email', 'Email*', 'Enter email')}
         {renderInputControl('password', 'password', 'Password*', 'Enter password')}
         {renderCTAControl()}
         {renderRegistrationFormExtraControls()}
-      </div>
+      </form>
 
     </div>
   );

@@ -1,20 +1,27 @@
-export function isFormValid(formState) {
+import { validateEmail } from "utilities/validations";
 
-  if (formState.firstName === '') {
-    return false;
+export function validateForm(values) {
+
+  const errors = {};
+
+  if (values.firstName === '') {
+    errors.firstName = 'Required';
   }
 
-  if (formState.lastName === '') {
-    return false;
+  if (values.lastName === '') {
+    errors.lastName = 'Required';
   }
 
-  if (formState.email === '') {
-    return false;
+  if (values.email === '') {
+    errors.email = 'Required';
+  } else if (validateEmail(values.email) === true) {
+    errors.email = 'Invalid email';
   }
 
-  if (formState.password === '') {
-    return false;
+  if (values.password === '') {
+    errors.password = 'Required';
   }
 
-  return true;
+  return errors;
+
 }

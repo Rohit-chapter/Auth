@@ -70,8 +70,13 @@ function RegistrationPage() {
       return;
     }
 
+    const registrationPageContentAttributes = {
+      id: styles.registrationPageContent,
+      className: 'hide-scrollbar'
+    };
+
     return (
-      <div id={styles.registrationPageContent}>
+      <div {...registrationPageContentAttributes}>
         {renderRegistrationForm()}
         {renderSectionDivider()}
         {renderSSOControl()}
