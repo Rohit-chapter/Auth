@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 import localStorageKeys from 'constants/local-storage-keys';
 
@@ -18,6 +19,7 @@ import styles from './LoginPage.module.scss';
 function LoginPage() {
 
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [loading, setLoading] = useState(false);
 
@@ -39,18 +41,28 @@ function LoginPage() {
 
     const _data = parseUserData(data);
 
-    const response = await loginUser(_data);
+    const result = await loginUser(_data);
 
-    if (response.status !== 200) {
+    if (result.status !== 200) {
+
+      const errorMessage = result.response.data.error.message;
+
+      enqueueSnackbar(errorMessage, { variant: 'error' });
+
       setLoading(false);
+
       return;
+
     }
 
-    localStorage.setItem(localStorageKeys.USER_DATA, JSON.stringify(response.data.user));
+    localStorage.setItem(localStorageKeys.USER_DATA, JSON.stringify(result.data.user));
+
+    enqueueSnackbar('Successful login!', { variant: 'success' });
 
     navigate('/home');
 
     setLoading(false);
+
   }
 
   if (userStorageData !== null) {

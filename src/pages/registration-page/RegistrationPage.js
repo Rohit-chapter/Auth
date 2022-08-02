@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 import localStorageKeys from 'constants/local-storage-keys';
 
@@ -16,6 +17,7 @@ import styles from './RegistrationPage.module.scss';
 function RegistrationPage() {
 
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [loading, setLoading] = useState(false);
 
@@ -23,14 +25,23 @@ function RegistrationPage() {
 
     setLoading(true);
 
-    const response = await registerUser(data);
+    const result = await registerUser(data);
 
-    if (response.status !== 200) {
+    if (result.status !== 200) {
+
+      const errorMessage = result.response.data.error.message;
+
+      enqueueSnackbar(errorMessage, { variant: 'error' });
+
       setLoading(false);
+
       return;
+
     }
 
-    localStorage.setItem(localStorageKeys.USER_DATA, JSON.stringify(response.data.user));
+    localStorage.setItem(localStorageKeys.USER_DATA, JSON.stringify(result.data.user));
+
+    enqueueSnackbar('Registered successfully', { variant: 'success' });
 
     navigate('/home');
 

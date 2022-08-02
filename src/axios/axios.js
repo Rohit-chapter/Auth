@@ -19,11 +19,7 @@ const errorHandler = (error) => {
   // eslint-disable-next-line no-console
   console.log(error.response.data, "Server Interaction error");
 
-  const errorMessage = error.response.data.error.message;
-
-  alert(errorMessage);
-
-  return error.response;
+  return error;
 
 };
 
