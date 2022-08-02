@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
+import { convertValueToHash } from 'utilities';
+
+import { isFormValid } from './utilities';
+
 import styles from './LoginForm.module.scss';
 
-function LoginForm() {
+function LoginForm(props) {
+
+  const { onLogin } = props;
 
   const navigate = useNavigate();
 
@@ -36,6 +42,20 @@ function LoginForm() {
   }
 
   function handleLoginButtonClick() {
+
+    const formValid = isFormValid(formState);
+
+    if (formValid === false) {
+      alert('All fields are mandatory');
+      return;
+    }
+
+    const data = {
+      email: formState.email,
+      password: convertValueToHash(formState.password)
+    };
+
+    onLogin(data);
 
   }
 

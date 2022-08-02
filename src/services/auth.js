@@ -19,3 +19,13 @@ export async function registerUser(user) {
   return response;
 
 }
+
+export async function loginUser(user) {
+
+  const url = '/login';
+
+  const response = await customAxios.post(url, user);
+
+  return response;
+
+}
