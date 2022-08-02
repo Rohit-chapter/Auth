@@ -9,9 +9,9 @@ const linkedinClientID = process.env.REACT_APP_LINKEDIN_CLIENT_ID;
 const linkedinRedirectURI = process.env.REACT_APP_LINKEDIN_REDIRECT_URI;
 const linkedinScope = process.env.REACT_APP_LINKEDIN_SCOPE;
 
-function LinkedinLoginControl(props) {
+function LinkedinSSOControl(props) {
 
-  const { icon, controlClass, onLoginSuccess } = props;
+  const { icon, controlClass, onSSOSuccess } = props;
 
   const { linkedInLogin } = useLinkedIn({
     clientId: linkedinClientID,
@@ -48,23 +48,23 @@ function LinkedinLoginControl(props) {
 
     const userProfile = {
       ...result.data.user,
-      authenticateType: authTypes.LINKEDIN
+      authenticationType: authTypes.LINKEDIN
     };
 
-    onLoginSuccess(userProfile);
+    onSSOSuccess(userProfile);
 
   }
 
-  const googleLoginControlAttributes = {
+  const GoogleSSOControlAttributes = {
     className: controlClass,
     onClick: linkedInLogin
   };
 
   return (
-    <div {...googleLoginControlAttributes}>
+    <div {...GoogleSSOControlAttributes}>
       {icon}
     </div>
   );
 }
 
-export default LinkedinLoginControl;
+export default LinkedinSSOControl;

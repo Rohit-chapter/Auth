@@ -4,18 +4,18 @@ import authTypes from 'constants/auth-types';
 
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
-function GoogleLoginControl(props) {
+function GoogleSSOControl(props) {
 
-  const { icon, controlClass, onLoginSuccess } = props;
+  const { icon, controlClass, onSSOSuccess } = props;
 
-  const googleLoginControlReference = useRef(null);
+  const GoogleSSOControlReference = useRef(null);
 
   useEffect(() => {
 
     initialize();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [googleLoginControlReference]);
+  }, [GoogleSSOControlReference]);
 
   function initialize() {
 
@@ -46,7 +46,7 @@ function GoogleLoginControl(props) {
 
   function handleAddCLickEvent(auth) {
 
-    const element = googleLoginControlReference.current;
+    const element = GoogleSSOControlReference.current;
 
     if (element === null) {
       return;
@@ -64,12 +64,11 @@ function GoogleLoginControl(props) {
       firstName: profile.getGivenName(),
       lastName: profile.getFamilyName(),
       id: profile.getId(),
-      profileImage: profile.getImageUrl(),
       email: profile.getEmail(),
-      authenticateType: authTypes.GOOGLE
+      authenticationType: authTypes.GOOGLE
     };
 
-    onLoginSuccess(data);
+    onSSOSuccess(data);
 
   }
 
@@ -77,16 +76,16 @@ function GoogleLoginControl(props) {
     alert(JSON.stringify(error));
   }
 
-  const googleLoginControlAttributes = {
+  const GoogleSSOControlAttributes = {
     className: controlClass,
-    ref: googleLoginControlReference
+    ref: GoogleSSOControlReference
   };
 
   return (
-    <div {...googleLoginControlAttributes}>
+    <div {...GoogleSSOControlAttributes}>
       {icon}
     </div>
   );
 }
 
-export default GoogleLoginControl;
+export default GoogleSSOControl;

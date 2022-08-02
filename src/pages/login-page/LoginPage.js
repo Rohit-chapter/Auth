@@ -3,8 +3,8 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 
 import LoginForm from 'components/login-page/login-form/LoginForm';
-import SectionDivider from 'components/login-page/section-divider/SectionDivider';
-import SSOControls from 'components/sso-controls/SSOControls';
+import SectionDivider from 'components/generics/section-divider/SectionDivider';
+import SSOControls from 'components/generics/sso-controls/SSOControls';
 
 import { getUserStorageData } from 'utilities/storage';
 

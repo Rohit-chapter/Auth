@@ -5,9 +5,9 @@ import authTypes from 'constants/auth-types';
 const facebookAppId = process.env.REACT_APP_FACEBOOK_APP_ID;
 const facebookApiVersion = process.env.REACT_APP_FACEBOOK_API_VERSION;
 
-function FacebookLoginControl(props) {
+function FacebookSSOControl(props) {
 
-  const { icon, controlClass, onLoginSuccess } = props;
+  const { icon, controlClass, onSSOSuccess } = props;
 
   useEffect(() => {
 
@@ -58,27 +58,26 @@ function FacebookLoginControl(props) {
         firstName: profile.first_name,
         lastName: profile.last_name,
         id: profile.id,
-        profileImage: profile.picture.data.url,
         email: profile.email,
-        authenticateType: authTypes.FACEBOOK
+        authenticationType: authTypes.FACEBOOK
       };
 
-      onLoginSuccess(data);
+      onSSOSuccess(data);
 
     });
 
   }
 
-  const facebookLoginControlAttributes = {
+  const FacebookSSOControlAttributes = {
     className: controlClass,
     onClick: handleFacebookControlClick
   };
 
   return (
-    <div {...facebookLoginControlAttributes}>
+    <div {...FacebookSSOControlAttributes}>
       {icon}
     </div>
   );
 }
 
-export default FacebookLoginControl;
+export default FacebookSSOControl;

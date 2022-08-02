@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import localStorageKeys from 'constants/local-storage-keys';
 import authTypes from 'constants/auth-types';
-
-import Spinner from 'components/spinner/Spinner';
-
-import { registerUser } from 'services/auth';
 
 import { convertValueToHash } from 'utilities';
 
@@ -15,7 +10,9 @@ import { isFormValid } from './utilities';
 
 import styles from './RegistrationForm.module.scss';
 
-function RegistrationForm() {
+function RegistrationForm(props) {
+
+  const { onRegistration } = props;
 
   const navigate = useNavigate();
 
@@ -25,8 +22,6 @@ function RegistrationForm() {
     email: '',
     password: ''
   });
-
-  const [loading, setLoading] = useState(false);
 
   function handleTextInputControlChange(event, key) {
 
@@ -39,7 +34,7 @@ function RegistrationForm() {
 
   }
 
-  async function handleCTAControlClick() {
+  function handleCTAControlClick() {
 
     const valid = isFormValid(formState);
 
@@ -48,37 +43,13 @@ function RegistrationForm() {
       return;
     }
 
-    setLoading(true);
-
     const user = {
       ...formState,
-      password: convertValueToHash(formState.password)
+      password: convertValueToHash(formState.password),
+      authenticationType: authTypes.WITHOUT_SSO
     };
 
-    const response = await registerUser(user);
-
-    if (response.status !== 200) {
-      setLoading(false);
-      return;
-    }
-
-    handleSuccessfulRegistration(response.data.user);
-
-  }
-
-  function handleSuccessfulRegistration(user) {
-
-    const data = {
-      ...user,
-      authenticateType: authTypes.WITHOUT_SSO,
-      profileImage: null
-    };
-
-    localStorage.setItem(localStorageKeys.USER_DATA, JSON.stringify(data));
-
-    navigate('/home');
-
-    setLoading(false);
+    onRegistration(user);
 
   }
 
@@ -138,43 +109,18 @@ function RegistrationForm() {
     );
   }
 
-  function renderSpinner() {
-
-    if (loading === false) {
-      return;
-    }
-
-    return <Spinner />;
-
-  }
-
-  function renderRegistrationForm() {
-
-    if (loading === true) {
-      return;
-    }
-
-    return (
-      <React.Fragment>
-        <label className={styles.registrationFormLabel}>Registration</label>
-
-        <div id={styles.registrationForm}>
-          {renderNameInputControls()}
-          {renderInputControl('email', 'email', 'Email*', 'Enter email')}
-          {renderInputControl('password', 'password', 'Password*', 'Enter password')}
-          {renderCTAControl()}
-          {renderRegistrationFormExtraControls()}
-        </div>
-      </React.Fragment>
-    );
-  }
-
   return (
     <div id={styles.registrationFormMain}>
 
-      {renderRegistrationForm()}
+      <label className={styles.registrationFormLabel}>Registration</label>
 
-      {renderSpinner()}
+      <div id={styles.registrationForm}>
+        {renderNameInputControls()}
+        {renderInputControl('email', 'email', 'Email*', 'Enter email')}
+        {renderInputControl('password', 'password', 'Password*', 'Enter password')}
+        {renderCTAControl()}
+        {renderRegistrationFormExtraControls()}
+      </div>
 
     </div>
   );
