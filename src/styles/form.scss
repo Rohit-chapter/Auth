@@ -8,7 +8,6 @@ textarea {
   font-weight: normal;
   font-size: 15px;
   line-height: 19px;
-  transition: border-color 0.2s ease-in;
   outline: none;
 
   &:placeholder {
@@ -23,6 +22,10 @@ textarea {
   &:focus,
   &:hover {
     border-color: var(--application-primary-color);
+  }
+
+  &.error {
+    border: 1px solid var(--application-error-color);
   }
 
 }
