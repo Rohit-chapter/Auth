@@ -1,0 +1,11 @@
+#homeMain {
+  display: grid;
+  grid-template-rows: min-content auto;
+  row-gap: 100px;
+
+  .welcomeText {
+    margin: 0;
+    font-family: 'Roboto-Bold';
+  }
+
+}

@@ -1,8 +1,10 @@
+import Home from "components/home-page/home/Home";
+
 const authenticationRoutesData = [
   {
     path: '',
     label: 'Home',
-    element: <h1>Home main</h1>
+    element: <Home />
   },
   {
     path: 'users',

@@ -10,9 +10,19 @@
   width: fit-content;
   margin: 0 auto;
 
-  .profileImage {
+  .avatarContainer {
     border-radius: var(--application-border-radius);
-    margin: 0 auto 10px auto;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--application-primary-color);
+    color: var(--application-secondary-background-color);
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Roboto-Bold';
   }
 
   .name {

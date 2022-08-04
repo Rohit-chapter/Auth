@@ -34,8 +34,6 @@ export function AuthContextProvider(props) {
 
     try {
 
-      console.log(sessionExpired);
-
       await logoutUser();
 
       localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
