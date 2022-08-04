@@ -1,26 +1,72 @@
 import { Route, Routes } from "react-router-dom";
+import { LinkedInCallback } from "react-linkedin-login-oauth2";
 
-import routes from "./routes";
+import LoginPage from "pages/login-page/LoginPage";
+import RegistrationPage from "pages/registration-page/RegistrationPage";
+import HomePage from "pages/home-page/HomePage";
+import ProtectedRoute from "./ProtectedRoute";
 
 function RouteComponent() {
 
-  function renderRouteItem(route, index) {
+  function renderLoginPageRoute() {
 
-    const routeItemProperties = {
-      key: index,
-      path: route.path,
-      element: route.component
+    const loginRouteProperties = {
+      path: '/',
+      element: <LoginPage />
     };
 
-    return <Route {...routeItemProperties} />;
+    return <Route {...loginRouteProperties} />;
+
+  }
+
+  function renderRegistrationPageRoute() {
+
+    const registrationRouteProperties = {
+      path: '/registration',
+      element: <RegistrationPage />
+    };
+
+    return <Route {...registrationRouteProperties} />;
+
+  }
+
+  function renderLinkedinCallbackRoute() {
+
+    const linkedinRouteProperties = {
+      path: '/linkedin',
+      element: <LinkedInCallback />
+    };
+
+    return <Route {...linkedinRouteProperties} />;
+
+  }
+
+  function renderHomePageRoute() {
+
+    const protectedRouteProperties = {
+      path: '/home',
+      element: <ProtectedRoute />
+    };
+
+    const homeRouteProperties = {
+      path: '/home',
+      element: <HomePage />
+    };
+
+    return (
+      <Route {...protectedRouteProperties}>
+        <Route {...homeRouteProperties} />;
+      </Route>
+    );
 
   }
 
   return (
     <Routes>
-      {routes.map((route, index) => (
-        renderRouteItem(route, index)
-      ))}
+      {renderLoginPageRoute()}
+      {renderRegistrationPageRoute()}
+      {renderLinkedinCallbackRoute()}
+      {renderHomePageRoute()}
     </Routes>
   );
 }
