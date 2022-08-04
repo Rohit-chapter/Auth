@@ -43,20 +43,17 @@ function RouteComponent() {
 
   function renderHomePageRoute() {
 
-    const protectedRouteProperties = {
-      path: '/home',
-      element: <ProtectedRoute />
-    };
-
     const homeRouteProperties = {
-      path: '/home',
-      element: <HomePage />
+      path: '/home/*',
+      element: (
+        <ProtectedRoute>
+          <HomePage />
+        </ProtectedRoute>
+      )
     };
 
     return (
-      <Route {...protectedRouteProperties}>
-        <Route {...homeRouteProperties} />;
-      </Route>
+      <Route {...homeRouteProperties} />
     );
 
   }

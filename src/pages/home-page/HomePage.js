@@ -1,25 +1,52 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import AuthContext from 'context/authentication-context';
+import { Route, Routes } from 'react-router-dom';
+
+import Sidebar from 'components/home-page/sidebar/Sidebar';
+
+import authenticationRoutesData from 'assets/data/authenticated-routes-data';
 
 import styles from './HomePage.module.scss';
 
 function HomePage() {
 
-  const authenticationContext = useContext(AuthContext);
+  function renderSidebar() {
 
-  function logoutHandler() {
+    return <Sidebar data={authenticationRoutesData} />;
 
-    // passing false as to inform logoutHandler that 
-    // this logout is called physically not on the clearing of session
-    authenticationContext.onLogout(false);
+  }
+
+  function renderRoute(route, index) {
+
+    const routeProperties = {
+      path: route.path,
+      key: index,
+      element: route.element
+    };
+
+    return <Route {...routeProperties} />;
+  }
+
+  function renderContent() {
+
+    return (
+      <div className={styles.homeContent}>
+        <Routes>
+          {
+            authenticationRoutesData.map((route, index) => (
+              renderRoute(route, index)
+            ))
+          }
+        </Routes>
+      </div>
+    );
 
   }
 
   return (
     <div id={styles.homePageMain}>
-      <h1>Home page</h1>
-      <button className='application-themed-button' onClick={logoutHandler}>Logout</button>
+      {renderSidebar()}
+      {renderContent()}
     </div>
   );
 }

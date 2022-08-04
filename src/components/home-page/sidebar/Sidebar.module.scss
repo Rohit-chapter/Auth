@@ -1,0 +1,63 @@
+.sidebarMain {
+  width: 210px;
+  height: calc(100vh - 40px);
+  background-color: var(--application-secondary-background-color);
+  color: var(--application-primary-background-color);
+  padding: 20px;
+  display: grid;
+  grid-template-rows: 30px auto 40px;
+  row-gap: 50px;
+
+  .sidebarTitle {
+    font-size: 25px;
+    font-family: 'Roboto-Bold';
+    margin: 0;
+    color: var(--application-primary-color);
+  }
+
+  .sidebarContent {
+    display: grid;
+    grid-auto-rows: min-content;
+    row-gap: 20px;
+  }
+
+  .sidebarItem {
+    cursor: pointer;
+    color: var(--application-primary-color);
+    padding: 10px 20px;
+    border-radius: var(--application-border-radius);
+    font-size: 15px;
+    font-family: 'Roboto-Medium';
+    text-decoration: none;
+
+    &.active,
+    &:hover {
+      background-color: var(--application-secondary-color);
+    }
+  }
+
+  .logoutControl {
+    background-color: var(--application-remove-button-color);
+    color: var(--application-error-color);
+    display: flex;
+    height: fit-content;
+    justify-content: center;
+
+    &:hover {
+      background-color: var(--application-remove-button-color);
+      color: var(--application-error-color);
+    }
+  }
+
+  .logoutIcon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+
+    path,
+    line {
+      stroke: var(--application-error-color);
+    }
+
+  }
+}

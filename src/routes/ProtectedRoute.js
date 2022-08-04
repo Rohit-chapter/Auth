@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import AuthContext from 'context/authentication-context';
 
-function ProtectedRoute() {
+function ProtectedRoute(props) {
 
   const authenticationContext = useContext(AuthContext);
 
@@ -12,7 +12,7 @@ function ProtectedRoute() {
     return <Navigate to={'/'} />;
   }
 
-  return <Outlet />;
+  return props.children;
 }
 
 export default ProtectedRoute;
