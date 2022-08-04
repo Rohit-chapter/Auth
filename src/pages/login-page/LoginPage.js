@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
-
-import localStorageKeys from 'constants/local-storage-keys';
 
 import LoginForm from 'components/login-page/login-form/LoginForm';
 import SectionDivider from 'components/generics/section-divider/SectionDivider';
 import SSOControls from 'components/generics/sso-controls/SSOControls';
 import Spinner from 'components/generics/spinner/Spinner';
 
-import { getUserStorageData } from 'utilities/storage';
+import AuthContext from 'context/authentication-context';
 
 import { loginUser } from 'services/auth';
 
@@ -18,12 +16,12 @@ import styles from './LoginPage.module.scss';
 
 function LoginPage() {
 
+  const authenticationContext = useContext(AuthContext);
+
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   const [loading, setLoading] = useState(false);
-
-  const userStorageData = getUserStorageData();
 
   function parseUserData(data) {
 
@@ -55,7 +53,7 @@ function LoginPage() {
 
     }
 
-    localStorage.setItem(localStorageKeys.USER_DATA, JSON.stringify(result.data.user));
+    authenticationContext.onAuthenticate(result.data.accessToken);
 
     enqueueSnackbar('Successful login!', { variant: 'success' });
 
@@ -63,16 +61,6 @@ function LoginPage() {
 
     setLoading(false);
 
-  }
-
-  if (userStorageData !== null) {
-
-    const navigateProperties = {
-      to: '/home',
-      replace: true
-    };
-
-    return <Navigate {...navigateProperties} />;
   }
 
   function renderSpinner() {

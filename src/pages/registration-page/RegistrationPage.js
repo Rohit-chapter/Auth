@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
-import localStorageKeys from 'constants/local-storage-keys';
+import AuthContext from 'context/authentication-context';
 
 import SSOControls from 'components/generics/sso-controls/SSOControls';
 import RegistrationForm from 'components/registration-page/registration-form/RegistrationForm';
@@ -16,6 +16,7 @@ import styles from './RegistrationPage.module.scss';
 
 function RegistrationPage() {
 
+  const authenticationContext = useContext(AuthContext);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -39,7 +40,7 @@ function RegistrationPage() {
 
     }
 
-    localStorage.setItem(localStorageKeys.USER_DATA, JSON.stringify(result.data.user));
+    authenticationContext.onAuthenticate(result.data.accessToken);
 
     enqueueSnackbar('Registered successfully', { variant: 'success' });
 

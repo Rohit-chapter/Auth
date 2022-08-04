@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import routes from "./routes";
 
@@ -17,13 +17,11 @@ function RouteComponent() {
   }
 
   return (
-    <Router>
-      <Routes>
-        {routes.map((route, index) => (
-          renderRouteItem(route, index)
-        ))}
-      </Routes>
-    </Router>
+    <Routes>
+      {routes.map((route, index) => (
+        renderRouteItem(route, index)
+      ))}
+    </Routes>
   );
 }
 

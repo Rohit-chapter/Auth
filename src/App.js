@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { AuthContextProvider } from 'context/authentication-context';
+
 import Snackbar from 'components/generics/snackbar/Snackbar';
 
 import RouteComponent from 'routes/RouteComponent';
@@ -10,9 +12,11 @@ function App() {
 
   return (
     <Snackbar>
-      <div className={styles.appContainer}>
-        <RouteComponent />
-      </div>
+      <AuthContextProvider>
+        <div className={styles.appContainer}>
+          <RouteComponent />
+        </div>
+      </AuthContextProvider>
     </Snackbar>
   );
 
