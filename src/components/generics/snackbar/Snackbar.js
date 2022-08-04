@@ -44,7 +44,7 @@ function Snackbar(props) {
       horizontal: 'right',
     },
     preventDuplicate: true,
-    autoHideDuration: 4000,
+    autoHideDuration: 3000,
     maxSnack: 3,
     action: renderSnackbarCloseControl,
     ref: snackbarReference

@@ -29,3 +29,13 @@ export async function loginUser(user) {
   return response;
 
 }
+
+export async function logoutUser() {
+
+  const url = '/logout';
+
+  const response = await customAxios.post(url);
+
+  return response;
+
+}

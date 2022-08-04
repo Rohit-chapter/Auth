@@ -5,6 +5,8 @@ import { useSnackbar } from "notistack";
 
 import localStorageKeys from "constants/local-storage-keys";
 
+import { logoutUser } from "services/auth";
+
 import { calculateRemainingTime, retrieveStoredToken } from "./utilities";
 
 const AuthContext = React.createContext({
@@ -28,20 +30,40 @@ export function AuthContextProvider(props) {
 
   const userLoggedIn = !!token;
 
-  const logoutHandler = useCallback(() => {
+  const logoutHandler = useCallback(async (sessionExpired) => {
 
-    localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
-    setToken(null);
+    try {
 
-    navigate('/');
-    enqueueSnackbar('Sorry your access token has expired. Please login again!', { variant: 'error' });
+      console.log(sessionExpired);
 
-    if (logoutTimer) {
-      clearTimeout(logoutTimer);
+      await logoutUser();
+
+      localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
+      setToken(null);
+
+      showToastMessage(sessionExpired);
+
+      navigate('/');
+
+      if (logoutTimer) {
+        clearTimeout(logoutTimer);
+      }
+
+    } catch (exception) {
+      enqueueSnackbar(JSON.stringify(exception), { variant: 'error' });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const showToastMessage = (sessionExpired) => {
+
+    if (sessionExpired === true) {
+      return enqueueSnackbar('Sorry your access token has expired. Please login again!', { variant: 'error' });
+    }
+
+    enqueueSnackbar('Logout successfully!', { variant: 'success' });
+  };
 
   const authenticationHandler = (accessToken) => {
 
@@ -50,7 +72,7 @@ export function AuthContextProvider(props) {
 
     const remainingTime = calculateRemainingTime(accessToken.expiresAt);
 
-    logoutTimer = setTimeout(logoutHandler, remainingTime);
+    logoutTimer = setTimeout(() => logoutHandler(true), remainingTime);
 
   };
 
@@ -60,7 +82,11 @@ export function AuthContextProvider(props) {
       return;
     }
 
-    logoutTimer = setTimeout(logoutHandler, tokenData.duration);
+    if (tokenData.duration <= 6000) {
+      logoutHandler(true);
+    }
+
+    logoutTimer = setTimeout(() => logoutHandler(true), tokenData.duration);
 
     return () => {
       clearTimeout(logoutTimer);

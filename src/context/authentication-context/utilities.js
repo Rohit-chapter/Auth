@@ -1,11 +1,11 @@
-import localStorageKeys from "constants/local-storage-keys";
 import { getStorageToken } from "utilities/storage";
 
 export function calculateRemainingTime(expirationTime) {
 
   const currentTime = new Date().getTime();
 
-  const remainingDuration = expirationTime - currentTime;
+  // subtracting 5000ms from remainingDuration to avoid invalid token error 
+  const remainingDuration = (expirationTime - currentTime) - 5000;
 
   return remainingDuration;
 
@@ -20,13 +20,6 @@ export function retrieveStoredToken() {
   }
 
   const remainingTime = calculateRemainingTime(accessToken.expiresAt);
-
-  if (remainingTime <= 60000) {
-
-    localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
-    return null;
-
-  }
 
   return {
     token: accessToken.token,

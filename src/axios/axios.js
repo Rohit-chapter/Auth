@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { getStorageToken } from "utilities/storage";
+
 const serverURl = process.env.REACT_APP_SERVER_URL;
 
 const customAxios = axios.create({
@@ -7,7 +9,15 @@ const customAxios = axios.create({
 });
 
 const requestHandler = (request) => {
+
+  const accessToken = getStorageToken();
+
+  if (accessToken !== null) {
+    request.headers['Authorization'] = 'Bearer ' + accessToken.token;
+  }
+
   return request;
+
 };
 
 const responseHandler = (response) => {
