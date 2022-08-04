@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 import localStorageKeys from "constants/local-storage-keys";
 
@@ -21,6 +22,7 @@ export function AuthContextProvider(props) {
   const initialToken = tokenData?.token;
 
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [token, setToken] = useState(initialToken);
 
@@ -32,6 +34,7 @@ export function AuthContextProvider(props) {
     setToken(null);
 
     navigate('/');
+    enqueueSnackbar('Sorry your access token has expired. Please login again!', { variant: 'error' });
 
     if (logoutTimer) {
       clearTimeout(logoutTimer);
