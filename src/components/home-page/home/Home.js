@@ -6,7 +6,7 @@ import { getUserProfile } from 'services/user';
 
 import Spinner from 'components/generics/spinner/Spinner';
 
-import MyProfile from '../my-profile/MyProfile';
+import MyProfile from './my-profile/MyProfile';
 
 import styles from './Home.module.scss';
 
@@ -21,6 +21,7 @@ function Home() {
 
     initialize();
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function initialize() {

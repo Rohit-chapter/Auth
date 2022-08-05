@@ -1,4 +1,5 @@
 import Home from "components/home-page/home/Home";
+import Users from "components/home-page/users/Users";
 
 const authenticationRoutesData = [
   {
@@ -9,7 +10,7 @@ const authenticationRoutesData = [
   {
     path: 'users',
     label: 'Users',
-    element: <h1>Users main</h1>
+    element: <Users />
   },
   {
     path: 'profile',

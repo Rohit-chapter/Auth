@@ -1,0 +1,26 @@
+.usersMain {
+  display: grid;
+  grid-template-rows: min-content auto;
+  row-gap: 50px;
+
+  .usersListLabel {
+    margin: 0;
+    font-family: 'Roboto-Bold';
+  }
+
+  .userListContainer {
+    display: grid;
+    grid-auto-rows: min-content;
+    row-gap: 20px;
+  }
+
+  .noUserSection {
+    margin: 0 auto;
+  }
+
+  .noUserMessageLabel {
+    font-size: 16px;
+    color: var(--application-tertiary-color);
+  }
+
+}
